@@ -1,17 +1,21 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
+import { createRoot } from "react-dom/client";
 import App from "./App";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import * as serviceWorker from "./serviceWorker";
+import { Auth0Provider } from "@auth0/auth0-react";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const domain = process.env.REACT_APP_AUTH0_DOMAIN
+const clientID = process.env.REACT_APP_AUTH0_CLIENTID
+const authorizationParams = {
+  redirect_uri: window.location.origin
+}
+
+const root = createRoot(document.getElementById('root'));
 root.render(
-  <Router>
-    <Route component={App} />
-  </Router>,
-  document.getElementById("root")
+  <Auth0Provider
+    domain={domain}
+    clientId={clientID}
+    authorizationParams={authorizationParams}
+  >
+    <App />
+  </Auth0Provider>
 );
-
-
-serviceWorker.unregister();
